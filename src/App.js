@@ -5,16 +5,20 @@ import './App.css';
 
 function App() {
   const synth = new Tone.PolySynth().toMaster();
-  const chord = getChord('a', 4, 'melodic');
-  synth.triggerAttackRelease(
-    chord.map((noteNumber) => Tone.Frequency(noteNumber, 'midi')),
-    '4n',
+  const chord = getChord('a', 3, 'melodic', 4);
+  console.log(chord);
+
+  chord.map((noteNumber, index) =>
+    synth.triggerAttackRelease(
+      Tone.Frequency(noteNumber, 'midi'),
+      '4n',
+      (index + 1) / 4,
+    ),
   );
 
   return (
     <div className='App'>
-      <div>{getMidiNote('a', 4)}</div>
-      <div>{JSON.stringify(getScale('a', 4, 'minor'))}</div>
+      <div>{JSON.stringify(chord)}</div>
       <div>
         <button onClick={() => Tone.context.resume()}>Play</button>
       </div>
